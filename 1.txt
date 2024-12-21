@@ -2,3 +2,5 @@ docker build -t py-app .
 docker logs py-container
 docker start py-container 
  docker exec -it py-container python3 main.py
+
+ 1
