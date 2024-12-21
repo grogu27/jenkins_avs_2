@@ -6,8 +6,6 @@ services:
       dockerfile: Dockerfile
     container_name: py-container
     restart: on-failure
-    depends_on:
-      - docker
     networks:
       - jenkins
     #command: python3 main.py
