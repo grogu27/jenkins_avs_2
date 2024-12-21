@@ -43,7 +43,7 @@ services:
 
   app:
     build:
-      context: ../jenkins_avs_2 
+      context: /home/ipa/iv222s14/Documents/jenkins_avs_2/docker-compose.yml
       dockerfile: Dockerfile
     container_name: py-container
     restart: on-failure
