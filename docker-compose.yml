@@ -2,7 +2,7 @@ services:
  
   app:
     build:
-      context: ../docker-compose.yml
+      context: /docker-compose.yml
       dockerfile: Dockerfile
     container_name: py-container
     restart: on-failure
