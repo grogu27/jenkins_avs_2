@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    environment {
+        REPO_URL = 'https://github.com/grogu27/jenkins_avs_2'
+        APP_IMAGE = 'rgr2-app:latest'
+        DOCKER_COMPOSE_FILE = '../docker-compose.yml'
+        UID = '1000' 
+        GID = '1000'
+    
+    }
+
+    stages {
+        stage('Checkout Second Repo') {
+            steps {
+                git branch: 'main', url: "${REPO_URL}"
+            }
+        }
+
+        stage('Build and Deploy using Docker Compose') {
+            steps {
+                script {
+                    
+                    def oldImageId = sh(script: "docker images -q ${APP_IMAGE}", returnStdout: true).trim()
+
+                    
+                    sh "docker compose  build"
+
+                    
+                    def newImageId = sh(script: "docker images -q ${APP_IMAGE}", returnStdout: true).trim()
+
+                    
+                    if (oldImageId == newImageId) {
+                        echo "Образ не изменился. Контейнер не будет пересоздан."
+                    } else {
+                        echo "Образ обновлен. Перезапуск контейнера."
+
+                        
+                        sh "docker compose  down || true"
+
+                        
+                        sh "docker compose  up -d app"
+                    }
+                }
+            }
+        }
+    }
+}
